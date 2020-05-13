@@ -1,3 +1,5 @@
+#include <parser.h>
+
 int number(char* s){
     int i = 0, aux = 0;
     if ((s[0] == '-') || (s[0] == '+')){i++;}
