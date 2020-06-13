@@ -22,26 +22,29 @@ static int number(char* s, int* error, int* advancedChar){
     return aux;
 }
 
-static int sum (char* s, int* error, int* advancedChar) {
+static int term (char* s, int* error, int* advancedChar) {
     int auxResp;
     int resp = number(s, error, advancedChar);
-    if(ERR_SUCESS == *error) {
-        if (s[*advancedChar] == '+' && (s[*advancedChar + 1] != '-' && s[*advancedChar + 1] != '+')) {
-            int auxAdvancedChar;
-            auxResp = number(s + *advancedChar + 1, error, &auxAdvancedChar);
-            if (ERR_SUCESS == *error) {
-                *advancedChar = *advancedChar + auxAdvancedChar + 1;
+    while (ERR_SUCESS == *error
+    && (s[*advancedChar] == '+' || s[*advancedChar] == '-')
+    && (s[*advancedChar + 1] != '-' && s[*advancedChar + 1] != '+')) {
+        int auxAdvancedChar;
+        auxResp = number(s + *advancedChar + 1, error, &auxAdvancedChar);
+        if (ERR_SUCESS == *error) {
+            if (s[*advancedChar] == '+'){
                 resp = resp + auxResp;
+            }else{
+                resp = resp - auxResp;
             }
+            *advancedChar = *advancedChar + auxAdvancedChar + 1;
         }
     }
-
     return resp;
 }
 
 int parser(char* s, int* error){
     int advancedChar = 0;
-    int resp = sum(s, error, &advancedChar);
+    int resp = term(s, error, &advancedChar);
     if(*error == ERR_SUCESS && s[advancedChar] != '\0') {
         *error = ERR_PARTIALEXPRESSION;
     }
