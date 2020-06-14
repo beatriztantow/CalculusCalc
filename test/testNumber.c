@@ -5,15 +5,17 @@
 
 int main(void){
     
-    int n, error;
+    double n;
+    int error;
+
     n = parser("+123", &error);
-    assert(n == 123);
+    assert(n == 123.0);
     assert(error == ERR_SUCESS);
     n = parser("-123", &error);
-    assert(n == -123);
+    assert(n == -123.0);
     assert(error == ERR_SUCESS);
     n = parser("123", &error);
-    assert(n == 123);
+    assert(n == 123.0);
     assert(error == ERR_SUCESS);
     
     return 0;

@@ -5,10 +5,11 @@
 
 int main(void){
     
-    int n, error;
+    double n;
+    int error;
 
     n = parser("2+2", &error);
-    assert(4 == n);
+    assert(4.0 == n);
     assert(ERR_SUCESS == error);
 
     n = parser("-2+2", &error);
@@ -22,10 +23,10 @@ int main(void){
     assert(ERR_PARTIALEXPRESSION == error);
 
     n = parser("2+2+2", &error);
-    assert(6 == n);
+    assert(6.0 == n);
     assert(ERR_SUCESS == error);
 
     n = parser("-1+3+7", &error);
-    assert(9 == n);
+    assert(9.0 == n);
     assert(ERR_SUCESS == error);
 }

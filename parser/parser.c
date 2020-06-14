@@ -1,7 +1,8 @@
 #include <parser.h>
 
-static int number(char* s, int* error, int* advancedChar){
-    int i = 0, aux = 0;
+static double number(char* s, int* error, int* advancedChar){
+    int i = 0;
+    double aux = 0;
     if ((s[i] == '-') || (s[i] == '+')){i++;}
     
     if (s[i] < '0' || s[i] > '9'){
@@ -31,6 +32,27 @@ static int term (char* s, int* error, int* advancedChar) {
         int auxAdvancedChar;
         auxResp = number(s + *advancedChar + 1, error, &auxAdvancedChar);
         if (ERR_SUCESS == *error) {
+            if (s[*advancedChar] == '*'){
+                resp = resp * auxResp;
+            }else {
+                resp = resp / auxResp;
+            }
+            *advancedChar = *advancedChar + auxAdvancedChar + 1;
+        }
+    }
+    return resp;
+
+}
+
+static double term (char* s, int* error, int* advancedChar) {
+    double auxResp;
+    double resp = factor(s, error, advancedChar);
+    while (ERR_SUCESS == *error
+    && (s[*advancedChar] == '+' || s[*advancedChar] == '-')
+    && (s[*advancedChar + 1] != '-' && s[*advancedChar + 1] != '+')) {
+        int auxAdvancedChar;
+        auxResp = factor(s + *advancedChar + 1, error, &auxAdvancedChar);
+        if (ERR_SUCESS == *error) {
             if (s[*advancedChar] == '+'){
                 resp = resp + auxResp;
             }else{
@@ -42,9 +64,9 @@ static int term (char* s, int* error, int* advancedChar) {
     return resp;
 }
 
-int parser(char* s, int* error){
+double parser(char* s, int* error){
     int advancedChar = 0;
-    int resp = term(s, error, &advancedChar);
+    double resp = term(s, error, &advancedChar);
     if(*error == ERR_SUCESS && s[advancedChar] != '\0') {
         *error = ERR_PARTIALEXPRESSION;
     }

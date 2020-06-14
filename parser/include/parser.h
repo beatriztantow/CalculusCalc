@@ -8,6 +8,6 @@ enum parser_error
     ERR_PARTIALEXPRESSION
 };
 
-int parser(char* s, int* error);
+double parser(char* s, int* error);
 
 #endif
