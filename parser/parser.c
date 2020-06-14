@@ -23,11 +23,11 @@ static double number(char* s, int* error, int* advancedChar){
     return aux;
 }
 
-static int term (char* s, int* error, int* advancedChar) {
-    int auxResp;
-    int resp = number(s, error, advancedChar);
+static double factor (char* s, int* error, int* advancedChar) {
+    double auxResp;
+    double resp = number(s, error, advancedChar);
     while (ERR_SUCESS == *error
-    && (s[*advancedChar] == '+' || s[*advancedChar] == '-')
+    && (s[*advancedChar] == '*' || s[*advancedChar] == '/')
     && (s[*advancedChar + 1] != '-' && s[*advancedChar + 1] != '+')) {
         int auxAdvancedChar;
         auxResp = number(s + *advancedChar + 1, error, &auxAdvancedChar);

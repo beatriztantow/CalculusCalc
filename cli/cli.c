@@ -1,6 +1,7 @@
 #include<stdio.h>
 
 #include<parser.h>
+#include<string.h>
 
 #define MAXLINE 666
 
@@ -11,6 +12,10 @@ int main(void){
     while (1) {
         printf("Digite uma expressao: ");
         scanf("%s", exp);
+        if (!strcmp(exp, "exit")){
+            printf("Saindo da melhor calculadora ;D\n");
+            break;
+        }
         val = parser(exp, &error);
         if(error == ERR_SUCESS){
             printf("Expressao: %f.\n", val);
