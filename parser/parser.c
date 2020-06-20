@@ -24,13 +24,17 @@ static double number(char* s, int* error, int* advancedChar){
 }
 
 static double factor (char* s, int* error, int* advancedChar) {
+    return number(s, error, advancedChar);
+}
+
+static double term (char* s, int* error, int* advancedChar) {
     double auxResp;
-    double resp = number(s, error, advancedChar);
+    double resp = factor(s, error, advancedChar);
     while (ERR_SUCESS == *error
     && (s[*advancedChar] == '*' || s[*advancedChar] == '/')
     && (s[*advancedChar + 1] != '-' && s[*advancedChar + 1] != '+')) {
         int auxAdvancedChar;
-        auxResp = number(s + *advancedChar + 1, error, &auxAdvancedChar);
+        auxResp = factor(s + *advancedChar + 1, error, &auxAdvancedChar);
         if (ERR_SUCESS == *error) {
             if (s[*advancedChar] == '*'){
                 resp = resp * auxResp;
@@ -44,14 +48,14 @@ static double factor (char* s, int* error, int* advancedChar) {
 
 }
 
-static double term (char* s, int* error, int* advancedChar) {
+static double expression (char* s, int* error, int* advancedChar) {
     double auxResp;
-    double resp = factor(s, error, advancedChar);
+    double resp = term(s, error, advancedChar);
     while (ERR_SUCESS == *error
     && (s[*advancedChar] == '+' || s[*advancedChar] == '-')
     && (s[*advancedChar + 1] != '-' && s[*advancedChar + 1] != '+')) {
         int auxAdvancedChar;
-        auxResp = factor(s + *advancedChar + 1, error, &auxAdvancedChar);
+        auxResp = term(s + *advancedChar + 1, error, &auxAdvancedChar);
         if (ERR_SUCESS == *error) {
             if (s[*advancedChar] == '+'){
                 resp = resp + auxResp;
@@ -66,7 +70,7 @@ static double term (char* s, int* error, int* advancedChar) {
 
 double parser(char* s, int* error){
     int advancedChar = 0;
-    double resp = term(s, error, &advancedChar);
+    double resp = expression(s, error, &advancedChar);
     if(*error == ERR_SUCESS && s[advancedChar] != '\0') {
         *error = ERR_PARTIALEXPRESSION;
     }
