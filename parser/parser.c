@@ -1,21 +1,36 @@
+#include <ctype.h>
+
 #include <parser.h>
 
 static double number(char* s, int* error, int* advancedChar){
     int i = 0;
+    int dot = 0;
     double aux = 0;
+
     if ((s[i] == '-') || (s[i] == '+')){i++;}
     
-    if (s[i] < '0' || s[i] > '9'){
+    if (!((s[i] == '.') || (s[i] >= '0' && s[i] <= '9'))){
         *advancedChar = 0;
         *error = ERR_NAN;
         return 0;
     }
-    *error = ERR_SUCESS;
-    
-    while (s[i] != '\0' && !(s[i] < '0' || s[i] > '9')){
-        aux = aux*10 + (s[i] - '0');
+
+    if (s[i] == '.') {
+        dot = 1;
         i++;
     }
+
+    *error = ERR_SUCESS;
+    while (s[i] != '\0' && !(s[i] < '0' || s[i] > '9')) {
+        aux = aux*10 + (s[i] - '0');
+        i++;        
+    }
+
+    if (dot) {
+        return
+    }
+
+
     *advancedChar = i;
     if (s[0] == '-') {
         return aux * -1;
