@@ -86,11 +86,11 @@ static double number(char* s, int* error, int* advancedChar) {
     return resp;
 }
 
-static double factor (char* s, int* error, int* advancedChar) {
+static double factor(char* s, int* error, int* advancedChar) {
     return number(s, error, advancedChar);
 }
 
-static double term (char* s, int* error, int* advancedChar) {
+static double term(char* s, int* error, int* advancedChar) {
     double auxResp;
     double resp = factor(s, error, advancedChar);
     while (ERR_SUCESS == *error
@@ -111,7 +111,7 @@ static double term (char* s, int* error, int* advancedChar) {
 
 }
 
-static double expression (char* s, int* error, int* advancedChar) {
+static double expression(char* s, int* error, int* advancedChar) {
     double auxResp;
     double resp = term(s, error, advancedChar);
     while (ERR_SUCESS == *error
@@ -131,7 +131,7 @@ static double expression (char* s, int* error, int* advancedChar) {
     return resp;
 }
 
-double parser(char* s, int* error){
+double parser(char* s, int* error) {
     int advancedChar = 0;
     double resp = expression(s, error, &advancedChar);
     if(*error == ERR_SUCESS && s[advancedChar] != '\0') {
