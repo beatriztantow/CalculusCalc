@@ -2,40 +2,88 @@
 
 #include <parser.h>
 
-static double number(char* s, int* error, int* advancedChar){
+static int isDigit(char* s) {
+    return (s[0] >= '0' && s[0] <= '9');
+}
+
+static int isSign(char* s) {
+    return (s[0] == '-' || s[0] == '+');
+}
+
+static int isEOS(char* s){
+    return (s[0] == '\0');
+}
+
+static int isDot(char* s) {
+    return (s[0] == '.');
+}
+
+static double mountDouble(int* integerPart, int* fractionalPart, int* amountDigits) {
+    double aux = *fractionalPart;
+    while (*amountDigits)
+    {
+        aux = aux / 10;
+        *amountDigits = *amountDigits - 1;
+    }
+
+    return (*integerPart + aux);
+}
+
+static double number(char* s, int* error, int* advancedChar) {
     int i = 0;
     int dot = 0;
-    double aux = 0;
+    int integerPart = 0;
+    int fractionalPart = 0;
+    int amountDigits = 0;
+    double resp;
 
-    if ((s[i] == '-') || (s[i] == '+')){i++;}
+    if (isSign(s)) { i++; }
     
-    if (!((s[i] == '.') || (s[i] >= '0' && s[i] <= '9'))){
+    if (!(isDot(s + i) || isDigit(s + i))) {
         *advancedChar = 0;
         *error = ERR_NAN;
         return 0;
     }
 
-    if (s[i] == '.') {
+    *error = ERR_SUCESS;
+    
+    if (isDot(s + i)) {
         dot = 1;
         i++;
     }
-
-    *error = ERR_SUCESS;
-    while (s[i] != '\0' && !(s[i] < '0' || s[i] > '9')) {
-        aux = aux*10 + (s[i] - '0');
-        i++;        
+    else {
+        while (!(isEOS(s + i)) && isDigit(s + i)) {
+            integerPart = integerPart*10 + (s[i] - '0');
+            i++;
+        }
+    }
+    
+    if(!dot && isDot(s + i) && isDigit(s + i + 1)) {
+        i++;
     }
 
-    if (dot) {
-        return
+    if (dot && !(isDigit(s + i))) {
+        *advancedChar = 0;
+        *error = ERR_NAN;
+        return 0;
     }
-
+    
+    while (!(isEOS(s + i)) && isDigit(s + i))
+    {
+        fractionalPart = fractionalPart*10 + (s[i] - '0');
+        amountDigits++;
+        i++;
+    }
 
     *advancedChar = i;
+
+    resp = mountDouble(&integerPart, &fractionalPart, &amountDigits);
+
     if (s[0] == '-') {
-        return aux * -1;
+        return resp * -1;
     }
-    return aux;
+
+    return resp;
 }
 
 static double factor (char* s, int* error, int* advancedChar) {

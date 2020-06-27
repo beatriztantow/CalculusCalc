@@ -40,15 +40,23 @@ int main(void){
     assert(fpequal(0.666, n));
     assert(error == ERR_SUCESS);
 
-    n = parser(".666.666", &error);
-    assert(error == ERR_NAN);
-
     n = parser(".", &error);
     assert(error == ERR_NAN);
 
     n = parser("0", &error);
     assert(fpequal(0.0, n));
     assert(error == ERR_SUCESS);
+
+    n = parser(".1", &error);
+    assert(fpequal(0.1, n));
+    assert(error == ERR_SUCESS);
+
+    n = parser(".01", &error);
+    assert(fpequal(0.01, n));
+    assert(error == ERR_SUCESS);
+
+    n = parser("12.", &error);
+    assert(error == ERR_PARTIALEXPRESSION);
     
     return 0;
 }
