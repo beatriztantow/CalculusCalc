@@ -2,6 +2,8 @@
 
 #include <parser.h>
 
+static double parenthesis(char *s, int *error, int *advancedChar);
+
 static int isDigit(char* s) {
     return (s[0] >= '0' && s[0] <= '9');
 }
@@ -87,7 +89,14 @@ static double number(char* s, int* error, int* advancedChar) {
 }
 
 static double factor(char* s, int* error, int* advancedChar) {
-    return number(s, error, advancedChar);
+    double resp;
+    resp = parenthesis(s, error, advancedChar);
+    if (*error == ERR_SUCESS) {
+        return resp;
+    }
+    else {
+        return number(s, error, advancedChar);
+    }
 }
 
 static double term(char* s, int* error, int* advancedChar) {
@@ -127,6 +136,27 @@ static double expression(char* s, int* error, int* advancedChar) {
             }
             *advancedChar = *advancedChar + auxAdvancedChar + 1;
         }
+    }
+    return resp;
+}
+
+static double parenthesis(char* s, int* error, int* advancedChar) {
+    double resp = 0.0;
+    if(s[0] == '(') {
+        resp = expression(s + 1, error, advancedChar);
+        if (*error == ERR_SUCESS) {
+            if (!(s[*advancedChar + 1] == ')')) {
+                *error = ERR_NAP;
+                resp = 0.0;
+            }
+            else {
+                *advancedChar = *advancedChar + 2;
+            }
+        }
+    }
+    else {
+        *error = ERR_NAP;
+        *advancedChar = 0;
     }
     return resp;
 }
