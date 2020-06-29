@@ -3,10 +3,12 @@
 #include<parser.h>
 #include<string.h>
 
+#include<readline/readline.h>
+
 #define MAXLINE 666
 
 int main(void){
-    char exp[MAXLINE];
+    char *exp;
     int error;
     double val;
     while (1) {
@@ -23,6 +25,8 @@ int main(void){
         }else{
             printf("Entrada invalida.\n");
         }
+	free(exp);
     }
+    free(exp);
     return 0;
 }
