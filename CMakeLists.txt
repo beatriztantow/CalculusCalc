@@ -5,7 +5,9 @@ project(calculadoraBatata)
 
 enable_testing()
 
+
 add_subdirectory(lexer)
+
 find_package(readline REQUIRED)
 
 add_subdirectory(parser)
