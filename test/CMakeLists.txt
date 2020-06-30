@@ -40,3 +40,10 @@ add_executable(testParenthesis ${SOURCES_PARENTHESIS})
 target_link_libraries(testParenthesis parser)
 add_test(NAME testParenthesis COMMAND testParenthesis)
 
+set(SOURCES_LEXER
+    testLexer.c
+)
+add_executable(testLexer ${SOURCES_LEXER})
+target_link_libraries(testLexer parser)
+add_test(NAME testLexer COMMAND testLexer)
+

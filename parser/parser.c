@@ -1,6 +1,8 @@
 #include <ctype.h>
 
+#include <lexer.h>
 #include <parser.h>
+
 
 static double parenthesis(char *s, int *error, int *advancedChar);
 
@@ -163,6 +165,7 @@ static double parenthesis(char* s, int* error, int* advancedChar) {
 
 double parser(char* s, int* error) {
     int advancedChar = 0;
+    s = lexer(s, error);
     double resp = expression(s, error, &advancedChar);
     if(*error == ERR_SUCESS && s[advancedChar] != '\0') {
         *error = ERR_PARTIALEXPRESSION;
