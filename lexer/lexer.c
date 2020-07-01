@@ -6,26 +6,21 @@ char* lexer(char* s, int* error){
     int i = 0, j = 0;
     int aux = 0;
     char *newS;
-    while (s[i] != '\0')
-    {
-        if (s[i] != ' '){
+    while (s[i] != '\0') {
+        if (s[i] == ' '){
             aux++;
         }
         i++;
     }
-    if (aux) {
-        newS = malloc(sizeof(char) * (i - aux));
-        i = 0;
-        while (s[i] != '\0') {
-            if (s[i] != ' ') {
-                newS[j] = s[i];
-                j++;
-            }
-            i++;
+    newS = malloc(sizeof(char) * (i - aux + 1));
+    i = 0;
+    while (s[i] != '\0') {
+        if (s[i] != ' ') {
+            newS[j] = s[i];
+            j++;
         }
-
-        free(s);
-        return newS;
+        i++;
     }
-    return s;
+    newS[i] = '\0';
+    return newS;
 }

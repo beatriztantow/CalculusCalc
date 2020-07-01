@@ -12,6 +12,9 @@ int main(void){
     double n;
     int error;
 
+    n = parser(" ", &error);
+    assert(error == ERR_EMPTYSTRING);
+
     n = parser(" (2*3+9)", &error);
     assert(fpequal(15.0, n));
     assert(error == ERR_SUCESS);

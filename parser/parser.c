@@ -165,10 +165,17 @@ static double parenthesis(char* s, int* error, int* advancedChar) {
 
 double parser(char* s, int* error) {
     int advancedChar = 0;
-    s = lexer(s, error);
-    double resp = expression(s, error, &advancedChar);
-    if(*error == ERR_SUCESS && s[advancedChar] != '\0') {
+    char *lexeme;
+    double resp = 0.0;
+    lexeme = lexer(s, error);
+    if(*lexeme == '\0'){
+        *error = ERR_EMPTYSTRING;
+        return resp;
+    }
+    resp = expression(lexeme, error, &advancedChar);
+    if(*error == ERR_SUCESS && lexeme[advancedChar] != '\0') {
         *error = ERR_PARTIALEXPRESSION;
     }
+    free(lexeme);
     return resp;
 }
