@@ -11,7 +11,8 @@ int main(void){
     double val;
     while (1) {
         printf("Digite uma expressao: ");
-        scanf("%s", exp);
+        scanf("%[^\n]s", exp);
+        getchar();
         if (!strcmp(exp, "exit")){
             printf("Saindo da melhor calculadora ;D\n");
             break;
