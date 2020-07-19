@@ -1,39 +1,43 @@
 #include<stdio.h>
 #include<assert.h>
 #include<math.h>
+#include<string.h>
+#include<stdlib.h>
 
-#include<parser.h>
+#include<lexer.h>
 
 #define TOL 0.0000001
 #define fpequal(a, b) (fabs((a)-(b)) < TOL)
+#define strequal(a, b) (!strcmp(a, b))
 
 int main(void){
 
-    double n;
+    char *str;
     int error;
 
-    n = parser(" ", &error);
-    assert(error == ERR_EMPTYSTRING);
+    str = lexer(" ", &error);
+    assert(strequal(str, ""));
+    free(str);
 
-    n = parser(" (2*3+9)", &error);
-    assert(fpequal(15.0, n));
-    assert(error == ERR_SUCESS);
+    str = lexer(" (2*3+9)", &error);
+    assert(strequal(str, "(2*3+9)"));
+    free(str);
 
-    n = parser("(2*3+9) ", &error);
-    assert(fpequal(15.0, n));
-    assert(error == ERR_SUCESS);
+    str = lexer("(2*3+9) ", &error);
+    assert(strequal(str, "(2*3+9)"));
+    free(str);
 
-    n = parser("(2 * 3 + 9)", &error);
-    assert(fpequal(15.0, n));
-    assert(error == ERR_SUCESS);
+    str = lexer("(2 * 3 + 9)", &error);
+    assert(strequal(str, "(2*3+9)"));
+    free(str);
 
-    n = parser(" ( 2 * 3 + 9 ) ", &error);
-    assert(fpequal(15.0, n));
-    assert(error == ERR_SUCESS);
+    str = lexer(" ( 2 * 3 + 9 ) ", &error);
+    assert(strequal(str, "(2*3+9)"));
+    free(str);
 
-    n = parser("  (  2  *  3  +  9  )  ", &error);
-    assert(fpequal(15.0, n));
-    assert(error == ERR_SUCESS);
+    str = lexer("  (  2  *  3  +  9  )  ", &error);
+    assert(strequal(str, "(2*3+9)"));
+    free(str);
 
     return 0;
 }

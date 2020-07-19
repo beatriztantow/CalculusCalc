@@ -21,6 +21,6 @@ char* lexer(char* s, int* error){
         }
         i++;
     }
-    newS[i] = '\0';
+    newS[j] = '\0';
     return newS;
 }

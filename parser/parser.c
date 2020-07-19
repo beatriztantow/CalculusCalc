@@ -1,4 +1,5 @@
 #include <ctype.h>
+#include <stdlib.h>
 
 #include <lexer.h>
 #include <parser.h>
@@ -169,6 +170,7 @@ double parser(char* s, int* error) {
     double resp = 0.0;
     lexeme = lexer(s, error);
     if(*lexeme == '\0'){
+        free(lexeme);
         *error = ERR_EMPTYSTRING;
         return resp;
     }
