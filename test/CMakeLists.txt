@@ -47,3 +47,18 @@ add_executable(testLexer ${SOURCES_LEXER})
 target_link_libraries(testLexer parser)
 add_test(NAME testLexer COMMAND testLexer)
 
+set(SOURCES_PARSERSANITY
+    testParserSanity.c
+)
+add_executable(testParserSanity ${SOURCES_PARSERSANITY})
+target_link_libraries(testParserSanity parser)
+add_test(NAME testParserSanity COMMAND testParserSanity)
+
+add_test(NAME memoryLeakLexer COMMAND valgrind --error-exitcode=1 --leak-check=full --track-origins=yes ./testLexer)
+add_test(NAME memoryLeakMult COMMAND valgrind --error-exitcode=1 --leak-check=full --track-origins=yes ./testMult)
+add_test(NAME memoryLeakNumber COMMAND valgrind --error-exitcode=1 --leak-check=full --track-origins=yes ./testNumber)
+add_test(NAME memoryLeakParenthesis COMMAND valgrind --error-exitcode=1 --leak-check=full --track-origins=yes ./testParenthesis)
+add_test(NAME memoryLeakSub COMMAND valgrind --error-exitcode=1 --leak-check=full --track-origins=yes ./testSub)
+add_test(NAME memoryLeakSum COMMAND valgrind --error-exitcode=1 --leak-check=full --track-origins=yes ./testSum)
+add_test(NAME memoryLeakSumSub COMMAND valgrind --error-exitcode=1 --leak-check=full --track-origins=yes ./testSumSub)
+add_test(NAME memoryLeakParserSanity COMMAND valgrind --error-exitcode=1 --leak-check=full --track-origins=yes ./testParserSanity)

@@ -93,11 +93,9 @@ static double number(char* s, int* error, int* advancedChar) {
 
 static double factor(char* s, int* error, int* advancedChar) {
     double resp;
-    resp = parenthesis(s, error, advancedChar);
-    if (*error == ERR_SUCESS) {
-        return resp;
-    }
-    else {
+    if (s[0] == '('){
+        return parenthesis(s, error, advancedChar);
+    }else{
         return number(s, error, advancedChar);
     }
 }
@@ -155,6 +153,8 @@ static double parenthesis(char* s, int* error, int* advancedChar) {
             else {
                 *advancedChar = *advancedChar + 2;
             }
+        }else{
+            *error = ERR_NAP;
         }
     }
     else {

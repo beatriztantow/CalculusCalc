@@ -61,10 +61,10 @@ int main(void){
     assert(error == ERR_SUCESS);
 
     n = parser("()", &error);
-    assert(error == ERR_NAN);
+    assert(error == ERR_NAP);
 
     n = parser("(", &error);
-    assert(error == ERR_NAN);
+    assert(error == ERR_NAP);
 
     n = parser(")", &error);
     assert(error == ERR_NAN);

@@ -6,7 +6,7 @@ enum parser_error
     ERR_SUCESS,
     ERR_NAN,
     ERR_PARTIALEXPRESSION,
-    ERR_NAP,
+    ERR_NAP, //TODO: rename NAPE
     ERR_EMPTYSTRING
 };
 
