@@ -7,7 +7,11 @@ class CalculadoraBatataConan(ConanFile):
     generators = "cmake_find_package"
     requires = ["readline/8.0"]
     settings = "build_type","os"
+    options = {"UI": ["CLI","GUI","WEB"]}
+    default_options={"UI":"CLI"}
+
     def build(self):
         cmake = CMake(self)
+        cmake.definitions["UI"]=self.options.get_safe("UI")
         cmake.configure()
         cmake.build()
