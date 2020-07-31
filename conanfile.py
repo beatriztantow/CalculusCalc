@@ -5,7 +5,6 @@ class CalculadoraBatataConan(ConanFile):
     version = "0.1"
     license = "AGPLv3+"
     generators = "cmake_find_package"
-    requires = ["readline/8.0"]
     settings = "build_type","os"
     options = {"UI": ["CLI","GUI","WEB"]}
     default_options={"UI":"CLI"}
